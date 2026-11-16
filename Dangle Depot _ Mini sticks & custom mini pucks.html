@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dangle Depot | Mini sticks &amp; custom mini pucks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef4f8;--surface:#fff;--ink:#0c1b2e;--muted:#52647a;--line:#cfdae5;--red:#d4202f;--blue:#1c4fa0;--on-red:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1626;--surface:#12233b;--ink:#eaf2fa;--muted:#9fb3c8;--line:#26405f;--red:#ff4757;--blue:#6ea0ff;--on-red:#0a1626}}
+:root[data-theme="dark"]{--bg:#0a1626;--surface:#12233b;--ink:#eaf2fa;--muted:#9fb3c8;--line:#26405f;--red:#ff4757;--blue:#6ea0ff;--on-red:#0a1626}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:auto}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:Archivo,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.5}
+h1,h2,h3,.logo{font-family:"Archivo Black",Impact,"Arial Black",sans-serif;font-weight:400;line-height:1.05}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:min(1080px,100%);margin:auto;padding:0 20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:3px solid var(--red)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--surface);z-index:21}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{font-size:24px;letter-spacing:-.5px}
+.logo i{font-style:normal;color:var(--red)}
+nav{display:flex;gap:22px;align-items:center}
+nav a{color:var(--ink);text-decoration:none;font-weight:600;font-size:15px}
+nav a:hover{color:var(--red)}
+.cart-btn{border:2px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;font-weight:700}
+.btn{border:0;border-radius:10px;background:var(--red);color:var(--on-red);padding:12px 20px;font-weight:700;font-size:15px}
+.btn:hover{filter:brightness(1.08)}
+.btn.alt{background:var(--ink);color:var(--bg)}
+.hero{padding:48px 0 30px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:center}
+h1{font-size:clamp(38px,6vw,64px);letter-spacing:-1.5px}
+.hero p{margin:16px 0 22px;color:var(--muted);font-size:18px;max-width:460px}
+.rink{background:var(--surface);border:2px solid var(--line);border-radius:28px;padding:22px;position:relative;overflow:hidden}
+.rink::before{content:"";position:absolute;left:0;right:0;top:50%;height:6px;background:var(--red);opacity:.85}
+.rink svg{position:relative;width:100%;height:auto;display:block}
+section{padding:40px 0}
+h2{font-size:clamp(28px,4vw,40px);margin-bottom:8px}
+.sub{color:var(--muted);margin-bottom:24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.card .art{background:linear-gradient(180deg,var(--bg),var(--surface));padding:14px;border-bottom:2px solid var(--line)}
+.card .art svg{width:100%;height:160px}
+.card .body{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{font-size:18px}
+.card p{color:var(--muted);font-size:14px;flex:1}
+.price-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.price{font-weight:700;font-size:18px}
+.builder{display:grid;grid-template-columns:1fr 1fr;gap:28px;background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:28px}
+.preview{background:var(--bg);border-radius:18px;display:grid;place-items:center;padding:16px}
+.preview svg{width:min(320px,100%);height:auto}
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
+.field input[type=text],.field input[type=number],.field select{width:100%;padding:11px 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.swatch{width:36px;height:36px;border-radius:50%;border:3px solid var(--surface);outline:2px solid var(--line)}
+.swatch[aria-pressed=true]{outline:3px solid var(--blue)}
+.note{color:var(--muted);font-size:13px;margin-top:8px}
+.swatches.sm{gap:6px;margin-top:6px}.swatches.sm .swatch{width:24px;height:24px;border-width:2px}
+.card.xmas{border-color:#8fe0f7;box-shadow:0 0 0 3px rgba(143,224,247,.35)}
+.card.xmas .art{background:linear-gradient(180deg,#bfeefc,#eefbff)}
+.badge{background:linear-gradient(90deg,#8fe0f7,#e8fbff);color:#0c1b2e;font-weight:700;font-size:12px;padding:5px 12px;text-align:center}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);background:var(--surface);border-left:3px solid var(--red);z-index:40;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;padding:calc(18px + env(safe-area-inset-top,0px)) 18px calc(18px + env(safe-area-inset-bottom,0px))}
+.drawer.open{transform:none}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.drawer-head button{border:0;background:transparent;color:var(--ink);font-size:28px}
+#cartItems{flex:1;overflow:auto}
+.line{display:flex;gap:10px;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.line small{color:var(--muted);display:block}
+.line button{border:0;background:transparent;color:var(--red);font-weight:700}
+.total{display:flex;justify-content:space-between;font-weight:700;font-size:18px;margin:14px 0}
+footer{border-top:3px solid var(--red);background:var(--surface);padding:28px 0;margin-top:30px;color:var(--muted);font-size:14px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:60}
+.toast.show{opacity:1;transform:translateX(-50%)}
+@media(max-width:760px){.hero .wrap,.builder{grid-template-columns:1fr}nav a{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="logo">Dangle<i>Depot</i></div>
+  <nav><a href="#sticks">Mini sticks</a><a href="#pucks">Custom pucks</a>
+  <button class="cart-btn" id="cartBtn" type="button">Cart (<span id="cartCount">0</span>)</button></nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div>
+    <h1>Mini sticks. Custom pucks. Basement hockey, upgraded.</h1>
+    <p>Build a mini puck with your name, number, and team colors, then grab a stick to play with. Made for living rooms, garages, and driveways.</p>
+    <a href="#pucks"><button class="btn" type="button">Design your puck</button></a>
+  </div>
+  <div class="rink" aria-hidden="true">
+    <svg viewBox="0 0 400 260"><g id="heroStick"></g><ellipse cx="150" cy="215" rx="46" ry="16" fill="#0c1b2e"/><ellipse cx="150" cy="208" rx="46" ry="16" fill="#26405f"/><text x="150" y="213" text-anchor="middle" font-size="14" font-weight="700" fill="#fff" font-family="Arial">DANGLE</text></svg>
+  </div>
+</div></div>
+
+<section id="sticks"><div class="wrap">
+  <h2>Mini sticks</h2>
+  <p class="sub">Light, tough, and sized for tight spaces. Pick your color on every stick.</p>
+  <div class="grid" id="stickGrid"></div>
+</div></section>
+
+<section id="pucks"><div class="wrap">
+  <h2>Custom mini pucks</h2>
+  <p class="sub">Pick colors, add your name and number, and watch it update live.</p>
+  <div class="builder">
+    <div class="preview"><svg viewBox="0 0 300 300" id="puckSvg" role="img" aria-label="Puck preview"></svg></div>
+    <div>
+      <div class="field"><label>Puck color</label><div class="swatches" id="puckColors"></div></div>
+      <div class="field"><label>Text color</label><div class="swatches" id="textColors"></div></div>
+      <div class="field"><label for="puckText">Name or team (up to 12 characters)</label><input type="text" id="puckText" maxlength="12" value="SNIPER"></div>
+      <div class="field"><label for="puckNum">Number (0 to 99)</label><input type="number" id="puckNum" min="0" max="99" value="19"></div>
+      <div class="field"><label for="puckQty">Quantity</label><input type="number" id="puckQty" min="1" max="99" value="1"></div>
+      <div class="price-row"><div><span class="price" id="puckPrice">$9.00</span><div class="note">$9 each, $8 each when you buy 6 or more.</div></div>
+      <button class="btn" id="addPuck" type="button">Add to cart</button></div>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">Dangle Depot. Custom pucks ship in 5 to 7 business days. Mini sticks ship in 2 to 3. Questions? orders@dangledepot.com</div></footer>
+
+<aside class="drawer" id="drawer" aria-label="Cart">
+  <div class="drawer-head"><h3>Your cart</h3><button id="closeCart" type="button" aria-label="Close cart">×</button></div>
+  <div id="cartItems"></div>
+  <div class="total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+  <button class="btn" id="checkoutBtn" type="button">Send my order</button>
+  <p class="note">This opens an email with your order. We reply with a payment link.</p>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money = n => "$" + n.toFixed(2);
+
+const PRODUCTS = [
+  {id:"xmas", bundle:true, name:"Christmas bundle", desc:"2 Glacier Freeze mini sticks, a foam ball 3-pack, and 2 custom pucks. Gift ready.", price:42, color:"#8fe0f7", note:"2 Glacier Freeze sticks, foam ball 3-pack, 2 custom pucks (email us the names and numbers)"},
+  {id:"rookie", name:"Rookie mini stick", desc:"21 inch, flexible blade. Great for younger players.", price:12, color:"#0c0cac"},
+  {id:"pro", name:"Pro mini stick", desc:"30 inch, stiffer shaft and tape-ready blade.", price:18, color:"#d4202f"},
+  {id:"set", name:"Two-stick set + ball", desc:"Two 30 inch sticks and a foam ball. Game on.", price:30, color:"#0c1b2e"},
+  {id:"balls", name:"Foam ball 3-pack", desc:"Quiet, safe indoors, easy on the furniture.", price:6, color:"#f2a900"}
+];
+function stickArt(c, isBall){
+  if(isBall) return '<svg viewBox="0 0 200 120"><circle cx="100" cy="60" r="34" fill="'+c+'"/><circle cx="88" cy="48" r="8" fill="#fff" opacity=".5"/></svg>';
+  return '<svg viewBox="0 0 120 170">'+stickInner(c)+'</svg>';
+}
+function stickInner(c){
+  const n = "s" + (stickInner.n = (stickInner.n||0) + 1);
+  const shape = 'M9.2 7.2L7.0 9.3L7.4 11.5L10.0 16.6L12.2 23.9L14.3 27.8L14.3 29.1L17.8 36.8L19.5 42.8L20.3 43.7L20.8 45.9L22.9 50.2L22.9 51.5L25.9 57.9L26.4 60.5L30.7 69.9L34.1 79.8L38.8 90.2L43.1 101.8L45.3 105.6L47.4 112.1L49.2 115.1L49.2 116.4L53.0 125.4L56.0 134.9L59.5 142.2L63.8 146.5L68.5 149.1L81.0 153.4L82.7 154.7L93.5 158.5L99.0 162.0L105.9 165.0L108.1 165.0L109.8 163.3L110.2 162.0L109.8 161.6L111.1 159.8L113.2 154.2L112.8 153.8L113.2 151.2L108.9 147.8L105.5 146.5L105.1 146.9L102.1 145.2L100.3 145.2L85.7 139.6L83.1 139.2L81.8 137.9L77.1 136.2L75.0 134.5L69.8 131.9L63.8 125.4L62.1 122.4L60.3 117.3L60.8 116.8L59.0 113.8L59.5 113.4L58.2 111.2L58.2 109.9L54.7 103.5L53.9 99.6L53.0 98.8L50.0 89.7L48.3 86.3L48.3 85.0L46.6 82.4L44.8 76.8L41.4 69.9L40.5 66.5L37.1 59.2L37.5 58.8L35.4 55.3L35.0 52.3L33.2 49.3L31.9 44.6L29.8 40.7L28.5 36.0L24.2 26.5L22.5 20.5L21.6 19.6L20.8 16.2L19.5 14.0L18.6 10.2L16.5 5.9L15.2 5.0L12.6 5.4Z M11.7 11.2a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0 -2.8 0z';
+  return '<defs><linearGradient id="'+n+'g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient></defs>'+
+   '<ellipse cx="92" cy="166" rx="24" ry="2.5" fill="#000" opacity=".2"/>'+
+   '<path d="'+shape+'" fill="'+c+'" stroke="'+c+'" stroke-width=".7" stroke-linejoin="round" fill-rule="evenodd"/>'+
+   '<path d="'+shape+'" fill="url(#'+n+'g)" fill-rule="evenodd"/>'+
+   '';
+}
+$("heroStick").innerHTML = '<svg x="205" y="2" width="150" height="212" viewBox="0 0 120 170">'+stickInner("#0c0cac")+'</svg>';
+const STICK_COLORS = [["Royal blue","#0c0cac"],["Red","#d4202f"],["Black","#14181f"],["Green","#1f8a4c"],["Orange","#f26a1b"],["Purple","#6b3fa0"],["Glacier Freeze","#8fe0f7"]];
+const colorName = h => (STICK_COLORS.find(c => c[1] === h) || ["Custom"])[0];
+function bundleArt(c){
+  const f = 'style="filter:drop-shadow(0 0 1px rgba(0,30,80,.7))"';
+  return '<svg viewBox="0 0 190 170"><svg '+f+' x="0" width="120" height="170" viewBox="0 0 120 170">'+stickInner(c)+'</svg><svg '+f+' x="70" width="120" height="170" viewBox="0 0 120 170">'+stickInner(c)+'</svg><text x="150" y="30" font-size="20">❄</text><text x="8" y="150" font-size="15" opacity=".8">❄</text></svg>';
+}
+function renderShop(){
+  $("stickGrid").innerHTML = PRODUCTS.map(p => {
+    const pick = p.id !== "balls" && !p.bundle;
+    const sw = pick ? '<div class="swatches sm">'+STICK_COLORS.map(c => '<button type="button" class="swatch" style="background:'+c[1]+'" title="'+c[0]+'" aria-label="'+p.name+' color: '+c[0]+'" aria-pressed="'+(p.color===c[1])+'" data-pick="'+p.id+'" data-hex="'+c[1]+'"></button>').join("")+'</div><div class="note">'+colorName(p.color)+'</div>' : '';
+    const art = p.bundle ? bundleArt(p.color) : stickArt(p.color, p.id === "balls");
+    return '<div class="card'+(p.bundle?' xmas':'')+'">'+(p.bundle?'<div class="badge">❄ Holiday special: Glacier Freeze</div>':'')+'<div class="art">'+art+'</div><div class="body"><h3>'+p.name+'</h3><p>'+p.desc+'</p>'+sw+'<div class="price-row"><span class="price">'+money(p.price)+'</span><button class="btn" type="button" data-add="'+p.id+'">Add to cart</button></div></div></div>';
+  }).join("");
+}
+renderShop();
+
+/* Puck builder */
+const PUCK_COLORS = [["Black","#14181f"],["Red","#d4202f"],["Blue","#1c4fa0"],["Green","#1f8a4c"],["Orange","#f26a1b"],["Purple","#6b3fa0"]];
+const TEXT_COLORS = [["White","#ffffff"],["Gold","#f2c230"],["Ice","#9fd8ff"],["Black","#14181f"]];
+let puck = {color:PUCK_COLORS[0][1], text:TEXT_COLORS[0][1]};
+function swatches(id, list, key){
+  const box = $(id);
+  box.innerHTML = "";
+  list.forEach(([name,hex]) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "swatch"; b.style.background = hex; b.title = name; b.setAttribute("aria-label", name);
+    b.setAttribute("aria-pressed", puck[key] === hex);
+    b.onclick = () => { puck[key] = hex; swatches(id, list, key); drawPuck(); };
+    box.appendChild(b);
+  });
+}
+function drawPuck(){
+  const name = $("puckText").value.toUpperCase();
+  const num = $("puckNum").value;
+  $("puckSvg").innerHTML =
+    '<ellipse cx="150" cy="190" rx="120" ry="52" fill="#000" opacity=".25"/>' +
+    '<rect x="30" y="120" width="240" height="60" fill="'+puck.color+'"/>' +
+    '<ellipse cx="150" cy="180" rx="120" ry="48" fill="'+puck.color+'"/>' +
+    '<ellipse cx="150" cy="120" rx="120" ry="48" fill="'+puck.color+'" stroke="rgba(255,255,255,.35)" stroke-width="3"/>' +
+    '<ellipse cx="150" cy="120" rx="96" ry="36" fill="none" stroke="'+puck.text+'" stroke-width="2" opacity=".6"/>' +
+    '<text x="150" y="116" text-anchor="middle" font-family="Archivo Black,Impact,sans-serif" font-size="'+(name.length>8?22:28)+'" fill="'+puck.text+'">'+esc(name)+'</text>' +
+    '<text x="150" y="146" text-anchor="middle" font-family="Archivo Black,Impact,sans-serif" font-size="26" fill="'+puck.text+'">'+esc(num)+'</text>';
+  const q = Math.max(1, parseInt($("puckQty").value) || 1);
+  $("puckPrice").textContent = money(q * (q >= 6 ? 8 : 9));
+}
+swatches("puckColors", PUCK_COLORS, "color");
+swatches("textColors", TEXT_COLORS, "text");
+["puckText","puckNum","puckQty"].forEach(id => $(id).addEventListener("input", drawPuck));
+drawPuck();
+
+/* Cart */
+let cart = [];
+try { cart = JSON.parse(localStorage.getItem("dd_cart") || "[]"); if(!Array.isArray(cart)) cart = []; } catch { cart = []; }
+function persist(){ try { localStorage.setItem("dd_cart", JSON.stringify(cart)); } catch {} }
+function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove("show"),2000); }
+function renderCart(){
+  $("cartCount").textContent = cart.reduce((n,i)=>n+i.qty,0);
+  $("cartItems").innerHTML = cart.length ? cart.map((i,idx)=>'<div class="line"><div><strong>'+esc(i.qty)+' × '+esc(i.name)+'</strong>'+(i.detail?'<small>'+esc(i.detail)+'</small>':'')+'</div><div>'+money(i.price*i.qty)+'<br><button type="button" data-rm="'+idx+'">Remove</button></div></div>').join("") : '<p class="note">Your cart is empty. Pick a stick or design a puck.</p>';
+  $("cartTotal").textContent = money(cart.reduce((n,i)=>n+i.price*i.qty,0));
+  persist();
+}
+function addItem(item){
+  const same = cart.find(i => i.key === item.key);
+  if(same) same.qty += item.qty; else cart.push(item);
+  renderCart(); toast("Added to cart");
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-add]");
+  if(a){ const p = PRODUCTS.find(x=>x.id===a.dataset.add); const pick = p.id!=="balls" && !p.bundle; addItem({key:p.id+"|"+p.color,name:p.name,price:p.price,qty:1,detail:p.bundle?p.note:(pick?"Color: "+colorName(p.color):"")}); }
+  const k = e.target.closest("[data-pick]");
+  if(k){ PRODUCTS.find(x=>x.id===k.dataset.pick).color = k.dataset.hex; renderShop(); }
+  const r = e.target.closest("[data-rm]");
+  if(r){ cart.splice(Number(r.dataset.rm),1); renderCart(); }
+});
+$("addPuck").onclick = () => {
+  const q = Math.max(1, Math.min(99, parseInt($("puckQty").value) || 1));
+  const cName = (PUCK_COLORS.find(c=>c[1]===puck.color)||[""])[0], tName = (TEXT_COLORS.find(c=>c[1]===puck.text)||[""])[0];
+  const text = $("puckText").value.trim().toUpperCase(), num = $("puckNum").value;
+  const detail = cName+" puck, "+tName.toLowerCase()+" text: "+text+" #"+num;
+  addItem({key:"puck|"+detail, name:"Custom mini puck", price:q>=6?8:9, qty:q, detail});
+};
+$("cartBtn").onclick = () => $("drawer").classList.add("open");
+$("closeCart").onclick = () => $("drawer").classList.remove("open");
+$("checkoutBtn").onclick = () => {
+  if(!cart.length){ toast("Your cart is empty."); return; }
+  const lines = cart.map(i => i.qty+" x "+i.name+(i.detail?" ("+i.detail+")":"")+" - "+money(i.price*i.qty)).join("\n");
+  const total = money(cart.reduce((n,i)=>n+i.price*i.qty,0));
+  const body = "Hi Dangle Depot, I'd like to order:\n\n"+lines+"\n\nTotal: "+total+"\n\nName:\nShipping address:";
+  location.href = "mailto:orders@dangledepot.com?subject="+encodeURIComponent("New order")+"&body="+encodeURIComponent(body);
+};
+renderCart();
+</script>
+</body>
+</html>
