@@ -108,9 +108,9 @@ footer{border-top:3px solid var(--red);background:var(--surface);padding:28px 0;
     <div class="xmas-mid">
       <span class="tag">❄ HOLIDAY SPECIAL</span>
       <h2>Christmas bundle in <span>Glacier Freeze</span></h2>
-      <p>2 Glacier Freeze mini sticks, a foam ball 3-pack, and 2 custom pucks. Gift ready.</p>
+      <p>2 Glacier Freeze mini sticks. Gift ready.</p>
       <div class="xmas-art" id="xmasArt" aria-hidden="true"></div>
-      <div><span class="price">$42.00</span><button class="btn" id="addBundle" type="button">Add to cart</button></div>
+      <div><span class="price">$32.00</span><button class="btn" id="addBundle" type="button">Add to cart</button></div>
     </div>
     <div class="trees" id="treeR" aria-hidden="true"></div>
   </div>
@@ -171,7 +171,7 @@ function stickArt(c, isBall){
 }
 function bundleArt(c){
   const f = 'style="filter:drop-shadow(0 0 1.2px rgba(0,30,80,.9))"';
-  return '<svg viewBox="0 0 230 170" height="170"><svg '+f+' x="0" width="120" height="170" viewBox="0 0 120 170">'+stickInner(c)+'</svg><svg '+f+' x="70" width="120" height="170" viewBox="0 0 120 170">'+stickInner(c)+'</svg><circle cx="205" cy="140" r="16" fill="#fff"/><circle cx="199" cy="134" r="4" fill="#bfeefc"/><circle cx="170" cy="150" r="12" fill="#d4202f"/></svg>';
+  return '<svg viewBox="0 0 190 170" height="170"><svg '+f+' x="0" width="120" height="170" viewBox="0 0 120 170">'+stickInner(c)+'</svg><svg '+f+' x="70" width="120" height="170" viewBox="0 0 120 170">'+stickInner(c)+'</svg></svg>';
 }
 function tree(){
   return '<svg viewBox="0 0 100 150"><rect x="44" y="122" width="12" height="24" fill="#6b4226"/><path d="M50 58L92 120H8Z" fill="#14683a"/><path d="M50 34L84 88H16Z" fill="#1f8a4c"/><path d="M50 14L74 56H26Z" fill="#2da05a"/><path d="M50 14L58 28Q50 31 42 28ZM50 34L60 50Q50 54 40 50ZM50 58L64 80Q50 85 36 80Z" fill="#fff" opacity=".9"/><polygon points="50,2 53,10 62,10 55,15 58,23 50,18 42,23 45,15 38,10 47,10" fill="#ffd23f"/><circle cx="36" cy="108" r="4.5" fill="#d4202f"/><circle cx="64" cy="100" r="4.5" fill="#ffd23f"/><circle cx="50" cy="84" r="4" fill="#8fe0f7"/><circle cx="40" cy="68" r="3.5" fill="#d4202f"/><circle cx="60" cy="48" r="3.5" fill="#ffd23f"/><circle cx="76" cy="112" r="4" fill="#8fe0f7"/></svg>';
@@ -194,8 +194,7 @@ for(let i=0;i<16;i++){
 const STICK_COLORS = [["Royal blue","#0c0cac"],["Red","#d4202f"],["Black","#14181f"],["Green","#1f8a4c"],["Orange","#f26a1b"],["Purple","#6b3fa0"],["Glacier Freeze",GLACIER]];
 const colorName = h => (STICK_COLORS.find(c => c[1] === h) || ["Custom"])[0];
 const PRODUCTS = [
-  {id:"rookie", name:"Rookie mini stick", price:12, color:"#0c0cac"},
-  {id:"pro", name:"Pro mini stick", price:18, color:"#d4202f"},
+  {id:"pro", name:"Pro mini stick", price:18, color:"#0c0cac"},
   {id:"set", name:"Two-stick set + ball", price:30, color:"#0c1b2e"},
   {id:"balls", name:"Foam ball 3-pack", price:6, color:"#f2a900"}
 ];
@@ -264,7 +263,7 @@ document.addEventListener("click", e => {
   const r = e.target.closest("[data-rm]");
   if(r){ cart.splice(Number(r.dataset.rm),1); renderCart(); }
 });
-$("addBundle").onclick = () => addItem({key:"xmas",name:"Christmas bundle",price:42,qty:1,detail:"2 Glacier Freeze sticks, foam ball 3-pack, 2 custom pucks (email us the names and numbers)"});
+$("addBundle").onclick = () => addItem({key:"xmas",name:"Christmas bundle",price:32,qty:1,detail:"2 Glacier Freeze mini sticks"});
 $("addPuck").onclick = () => {
   const q = Math.max(1, Math.min(99, parseInt($("puckQty").value) || 1));
   const cName = (PUCK_COLORS.find(c=>c[1]===puck.color)||[""])[0], tName = (TEXT_COLORS.find(c=>c[1]===puck.text)||[""])[0];
