@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Dangle Depot | Mini sticks &amp; custom mini pucks</title>
+<title>Snipe Shot | Mini sticks &amp; custom mini pucks</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -64,6 +64,8 @@ h2{font-size:clamp(28px,4vw,40px);margin-bottom:8px}
 .swatch[aria-pressed=true]{outline:3px solid var(--blue)}
 .swatches.sm{gap:6px;margin-top:6px}.swatches.sm .swatch{width:24px;height:24px;border-width:2px}
 .note{color:var(--muted);font-size:13px;margin-top:8px}
+.cat{grid-column:1/-1;font-size:20px;margin-top:10px}
+.card input[type=text],.card select{width:100%;padding:8px 10px;border:2px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px}
 .builder{display:grid;grid-template-columns:1fr 1fr;gap:28px;background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:28px}
 .preview{background:var(--bg);border-radius:18px;display:grid;place-items:center;padding:16px}
 .preview svg{width:min(320px,100%);height:auto}
@@ -87,8 +89,8 @@ footer{border-top:3px solid var(--red);background:var(--surface);padding:28px 0;
 </head>
 <body>
 <header><div class="wrap">
-  <div class="logo">Dangle<i>Depot</i></div>
-  <nav><a href="#sticks">Mini sticks</a><a href="#pucks">Custom pucks</a>
+  <div class="logo">Snipe<i>Shot</i></div>
+  <nav><a href="#sticks">Shop</a><a href="#pucks">Custom pucks</a>
   <button class="cart-btn" id="themeBtn" type="button" aria-label="Switch between dark and light mode">☾ Dark</button>
   <button class="cart-btn" id="cartBtn" type="button">Cart (<span id="cartCount">0</span>)</button></nav>
 </div></header>
@@ -117,8 +119,8 @@ footer{border-top:3px solid var(--red);background:var(--surface);padding:28px 0;
 </div></div>
 
 <section id="sticks"><div class="wrap">
-  <h2>Mini sticks</h2>
-  <p class="sub">Pick your color on every stick.</p>
+  <h2>Shop</h2>
+  <p class="sub">Choose your color and type your name or number where you see a box.</p>
   <div class="grid" id="stickGrid"></div>
 </div></section>
 
@@ -139,7 +141,7 @@ footer{border-top:3px solid var(--red);background:var(--surface);padding:28px 0;
   </div>
 </div></section>
 
-<footer><div class="wrap">Dangle Depot. Custom pucks ship in 5 to 7 business days. Mini sticks ship in 2 to 3. Questions? orders@dangledepot.com</div></footer>
+<footer><div class="wrap">Snipe Shot. Custom pucks ship in 5 to 7 business days. Mini sticks ship in 2 to 3. Questions? orders@dangledepot.com</div></footer>
 
 <aside class="drawer" id="drawer" aria-label="Cart">
   <div class="drawer-head"><h3>Your cart</h3><button id="closeCart" type="button" aria-label="Close cart">×</button></div>
@@ -194,17 +196,57 @@ for(let i=0;i<16;i++){
 const STICK_COLORS = [["Royal blue","#0c0cac"],["Red","#d4202f"],["Black","#14181f"],["Green","#1f8a4c"],["Orange","#f26a1b"],["Purple","#6b3fa0"],["Glacier Freeze",GLACIER]];
 const colorName = h => (STICK_COLORS.find(c => c[1] === h) || ["Custom"])[0];
 const PRODUCTS = [
-  {id:"pro", name:"Pro mini stick", price:18, color:"#0c0cac"},
-  {id:"set", name:"Two-stick set + ball", price:30, color:"#0c1b2e"},
-  {id:"balls", name:"Foam ball 3-pack", price:6, color:"#f2a900"}
+  {id:'pro', cat:'Mini sticks', name:'Pro mini stick', price:18, color:'#0c0cac', pick:true},
+  {id:'set', cat:'Mini sticks', name:'Two-stick set + ball', price:30, color:'#0c1b2e', pick:true},
+  {id:'pucks3', cat:'Add-ons', name:'Plain puck 3-pack', price:10},
+  {id:'starter', cat:'Bundles', name:'Starter kit', price:55, note:'2 mini sticks, mini net, foam ball'},
+  {id:'teampack', cat:'Bundles', name:'Team pack', price:75, note:'10 custom pucks', text:'Team name and numbers'},
+  {id:'giftbox', cat:'Bundles', name:'Gift box', price:34, note:'Mini stick, custom puck, gift card', text:'Puck text and gift message'}
 ];
-function renderShop(){
-  $("stickGrid").innerHTML = PRODUCTS.map(p => {
-    const pick = p.id !== "balls";
-    const sw = pick ? '<div class="swatches sm">'+STICK_COLORS.map(c => '<button type="button" class="swatch" style="background:'+c[1]+'" title="'+c[0]+'" aria-label="'+p.name+' color: '+c[0]+'" aria-pressed="'+(p.color===c[1])+'" data-pick="'+p.id+'" data-hex="'+c[1]+'"></button>').join("")+'</div><div class="note">'+colorName(p.color)+'</div>' : '';
-    return '<div class="card"><div class="art">'+stickArt(p.color, p.id === "balls")+'</div><div class="body"><h3>'+p.name+'</h3>'+sw+'<div class="price-row"><span class="price">'+money(p.price)+'</span><button class="btn" type="button" data-add="'+p.id+'">Add to cart</button></div></div></div>';
-  }).join("");
+function priceOf(p){ return p.opts ? p.opts[p.sel||0][1] : p.price; }
+function puckG(x,y,r,c,t){
+  const ry=r*.36, h=r*.32;
+  return `<rect x='${x-r}' y='${y}' width='${2*r}' height='${h}' fill='${c}'/><ellipse cx='${x}' cy='${y+h}' rx='${r}' ry='${ry}' fill='${c}'/><ellipse cx='${x}' cy='${y+h}' rx='${r}' ry='${ry}' fill='#000' opacity='.25'/><ellipse cx='${x}' cy='${y}' rx='${r}' ry='${ry}' fill='${c}' stroke='rgba(255,255,255,.35)'/>`+(t?`<text x='${x}' y='${y+3}' text-anchor='middle' font-size='${r*.4}' font-weight='700' fill='#fff' font-family='Arial'>${t}</text>`:'');
 }
+function productArt(p){
+  const V=`<svg viewBox='0 0 200 120'>`, E='</svg>';
+  const cols=['#d4202f','#1c4fa0','#1f8a4c','#f26a1b','#6b3fa0','#14181f'], nums=['9','19','27','44','68','99'];
+  switch(p.id){
+    case 'pro': case 'mstick': return stickArt(p.color);
+    case 'set': return bundleArt(p.color);
+    case 'starter': return bundleArt('#0c0cac');
+    case 'net': return V+`<defs><pattern id='mesh' width='8' height='8' patternUnits='userSpaceOnUse'><path d='M0 0L8 8M8 0L0 8' stroke='#8aa0b8' stroke-width='.8'/></pattern></defs><rect x='46' y='34' width='108' height='64' fill='url(#mesh)'/><path d='M42 102V38Q42 30 50 30H150Q158 30 158 38V102' fill='none' stroke='#d4202f' stroke-width='6' stroke-linecap='round'/>`+E;
+    case 'pucks3': return V+puckG(100,30,32,'#14181f')+puckG(60,62,32,'#14181f')+puckG(140,62,32,'#14181f')+E;
+    case 'tape': return V+`<circle cx='100' cy='60' r='38' fill='#14181f'/><circle cx='100' cy='60' r='30' fill='none' stroke='#fff' stroke-width='3' stroke-dasharray='3 5' opacity='.5'/><circle cx='100' cy='60' r='15' fill='#8aa0b8'/>`+E;
+    case 'stand': return V+`<circle cx='100' cy='52' r='34' fill='#14181f'/><circle cx='100' cy='52' r='26' fill='none' stroke='#fff' stroke-opacity='.4'/><text x='100' y='58' text-anchor='middle' font-size='16' font-weight='700' fill='#fff' font-family='Arial'>19</text><path d='M58 104H142L132 88H68Z' fill='#8a5a2b'/><rect x='68' y='82' width='64' height='8' rx='3' fill='#6b4226'/>`+E;
+    case 'teamset': { let s=''; for(let i=0;i<6;i++) s+=puckG(50+(i%3)*50, i<3?34:70, 22, cols[i], nums[i]); return V+s+E; }
+    case 'keychain': return V+`<circle cx='100' cy='20' r='13' fill='none' stroke='#8aa0b8' stroke-width='4'/><path d='M100 33V50' stroke='#8aa0b8' stroke-width='3'/>`+puckG(100,56,30,'#d4202f','19')+E;
+    case 'ornament': return V+`<path d='M100 2V28' stroke='#ffd23f' stroke-width='3'/>`+puckG(100,54,32,'#1f8a4c','2026')+`<ellipse cx='92' cy='34' rx='9' ry='5' fill='#d4202f'/><ellipse cx='108' cy='34' rx='9' ry='5' fill='#d4202f'/><circle cx='100' cy='34' r='4' fill='#a8101c'/>`+E;
+    case 'teampack': { let s=''; [[40,34],[80,34],[120,34],[160,34],[60,58],[100,58],[140,58],[60,82],[100,82],[140,82]].forEach((q,i)=>{ s+=puckG(q[0],q[1],20,'#14181f',String(i+1)); }); return V+s+E; }
+    case 'giftbox': return V+`<rect x='56' y='52' width='88' height='52' rx='3' fill='#d4202f'/><rect x='50' y='42' width='100' height='16' rx='3' fill='#b81926'/><rect x='94' y='42' width='12' height='62' fill='#ffd23f'/><ellipse cx='86' cy='34' rx='16' ry='9' fill='#ffd23f'/><ellipse cx='114' cy='34' rx='16' ry='9' fill='#ffd23f'/><circle cx='100' cy='38' r='6' fill='#e0b21c'/>`+E;
+  }
+  return '';
+}
+function addProduct(p){
+  if(p.text && !(p.txt||'').trim()){ toast('Please fill in: '+p.text); return; }
+  const o = p.opts ? p.opts[p.sel||0] : null, parts = [];
+  if(p.pick) parts.push('Color: '+colorName(p.color));
+  if(o) parts.push(o[0]);
+  if(p.note) parts.push(p.note);
+  if(p.text) parts.push(p.text+': '+p.txt.trim());
+  addItem({key:[p.id,p.color||'',o?o[0]:'',p.txt||''].join('|'), name:p.name, price:priceOf(p), qty:1, detail:parts.join('; ')});
+}
+function renderShop(){
+  const cats=['Mini sticks','Add-ons','Bundles'];
+  $('stickGrid').innerHTML = cats.map(cat => `<h3 class='cat'>${cat}</h3>`+PRODUCTS.filter(p=>p.cat===cat).map(p=>{
+    const sw = p.pick ? `<div class='swatches sm'>`+STICK_COLORS.map(c=>`<button type='button' class='swatch' style='background:${c[1]}' title='${c[0]}' aria-label='${p.name} color: ${c[0]}' aria-pressed='${p.color===c[1]}' data-pick='${p.id}' data-hex='${c[1]}'></button>`).join('')+`</div><div class='note'>${colorName(p.color)}</div>` : '';
+    const sel = p.opts ? `<select data-opt='${p.id}' aria-label='Size'>`+p.opts.map((o,i)=>`<option value='${i}'${i===(p.sel||0)?' selected':''}>${o[0]} - ${money(o[1])}</option>`).join('')+`</select>` : '';
+    const txt = p.text ? `<input type='text' maxlength='40' placeholder='${esc(p.text)}' value='${esc(p.txt||'')}' data-text='${p.id}' aria-label='${esc(p.text)}'>` : '';
+    return `<div class='card'><div class='art'>${productArt(p)}</div><div class='body'><h3>${p.name}</h3>${sw}${sel}${txt}<div class='price-row'><span class='price'>${money(priceOf(p))}</span><button class='btn' type='button' data-add='${p.id}'>Add to cart</button></div></div></div>`;
+  }).join('')).join('');
+}
+document.addEventListener('input', e => { const t = e.target.closest('[data-text]'); if(t) PRODUCTS.find(x=>x.id===t.dataset.text).txt = t.value; });
+document.addEventListener('change', e => { const s = e.target.closest('[data-opt]'); if(s){ PRODUCTS.find(x=>x.id===s.dataset.opt).sel = Number(s.value); renderShop(); } });
 renderShop();
 
 /* Puck builder */
@@ -257,7 +299,7 @@ function addItem(item){
 }
 document.addEventListener("click", e => {
   const a = e.target.closest("[data-add]");
-  if(a){ const p = PRODUCTS.find(x=>x.id===a.dataset.add); addItem({key:p.id+"|"+p.color,name:p.name,price:p.price,qty:1,detail:p.id!=="balls"?"Color: "+colorName(p.color):""}); }
+  if(a){ addProduct(PRODUCTS.find(x=>x.id===a.dataset.add)); }
   const k = e.target.closest("[data-pick]");
   if(k){ PRODUCTS.find(x=>x.id===k.dataset.pick).color = k.dataset.hex; renderShop(); }
   const r = e.target.closest("[data-rm]");
@@ -286,8 +328,8 @@ $("checkoutBtn").onclick = () => {
   if(!cart.length){ toast("Your cart is empty."); return; }
   const lines = cart.map(i => i.qty+" x "+i.name+(i.detail?" ("+i.detail+")":"")+" - "+money(i.price*i.qty)).join("\n");
   const total = money(cart.reduce((n,i)=>n+i.price*i.qty,0));
-  const body = "Hi Dangle Depot, I'd like to order:\n\n"+lines+"\n\nTotal: "+total+"\n\nName:\nShipping address:";
-  location.href = "mailto:orders@dangledepot.com?subject="+encodeURIComponent("New order")+"&body="+encodeURIComponent(body);
+  const body = "Hi Snipe Shot, I'd like to order:\n\n"+lines+"\n\nTotal: "+total+"\n\nName:\nShipping address:";
+  location.href = "mailto:31stvazn@dextersouthfield.org?subject="+encodeURIComponent("New order")+"&body="+encodeURIComponent(body);
 };
 renderCart();
 </script>
