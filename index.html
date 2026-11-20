@@ -196,8 +196,8 @@ for(let i=0;i<16;i++){
 const STICK_COLORS = [["Royal blue","#0c0cac"],["Red","#d4202f"],["Black","#14181f"],["Green","#1f8a4c"],["Orange","#f26a1b"],["Purple","#6b3fa0"],["Yellow","#f2c230"],["Pink","#e8559a"],["Teal","#12a8a8"],["Maroon","#7a1530"],["Gray","#7b8794"],["White","#f2f5f8"],["Glacier Freeze",GLACIER]];
 const colorName = h => (STICK_COLORS.find(c => c[1] === h) || ["Custom"])[0];
 const PRODUCTS = [
-  {id:'pro', cat:'Mini sticks', name:'Pro mini stick', price:18, color:'#0c0cac', pick:true},
-  {id:'set', cat:'Mini sticks', name:'Two-stick set + ball', price:30, color:'#0c1b2e', pick:true},
+  {id:'pro', cat:'Mini sticks', name:'Pro mini stick', price:18, color:'#0c0cac', pick:true, optLabel:'Blade pattern', opts:[['P28',18],['P29',18],['P88',18],['P86',18]]},
+  {id:'set', cat:'Mini sticks', name:'Two-stick set + ball', price:30, color:'#0c1b2e', pick:true, optLabel:'Blade pattern', opts:[['P28',30],['P29',30],['P88',30],['P86',30]]},
   {id:'pucks3', cat:'Mini sticks', name:'Plain puck 3-pack', price:10, color:'#14181f', pick:true},
   {id:'ball', cat:'Mini sticks', name:'Mini ball', price:4, color:'#f26a1b', pick:true},
 ];
@@ -230,7 +230,7 @@ function addProduct(p){
   if(p.text && !(p.txt||'').trim()){ toast('Please fill in: '+p.text); return; }
   const o = p.opts ? p.opts[p.sel||0] : null, parts = [];
   if(p.pick) parts.push('Color: '+colorName(p.color));
-  if(o) parts.push(o[0]);
+  if(o) parts.push((p.optLabel?p.optLabel+': ':'')+o[0]);
   if(p.note) parts.push(p.note);
   if(p.text) parts.push(p.text+': '+p.txt.trim());
   addItem({key:[p.id,p.color||'',o?o[0]:'',p.txt||''].join('|'), name:p.name, price:priceOf(p), qty:1, detail:parts.join('; ')});
@@ -239,7 +239,7 @@ function renderShop(){
   const cats=['Mini sticks'];
   $('stickGrid').innerHTML = cats.map(cat => PRODUCTS.filter(p=>p.cat===cat).map(p=>{
     const sw = p.pick ? `<div class='swatches sm'>`+STICK_COLORS.map(c=>`<button type='button' class='swatch' style='background:${c[1]}' title='${c[0]}' aria-label='${p.name} color: ${c[0]}' aria-pressed='${p.color===c[1]}' data-pick='${p.id}' data-hex='${c[1]}'></button>`).join('')+`</div><div class='note'>${colorName(p.color)}</div>` : '';
-    const sel = p.opts ? `<select data-opt='${p.id}' aria-label='Size'>`+p.opts.map((o,i)=>`<option value='${i}'${i===(p.sel||0)?' selected':''}>${o[0]} - ${money(o[1])}</option>`).join('')+`</select>` : '';
+    const sel = p.opts ? (p.optLabel?`<div class='note'>${p.optLabel}</div>`:'')+`<select data-opt='${p.id}' aria-label='${p.optLabel||'Option'}'>`+p.opts.map((o,i)=>`<option value='${i}'${i===(p.sel||0)?' selected':''}>${o[0]}${p.optLabel?'':' - '+money(o[1])}</option>`).join('')+`</select>` : '';
     const txt = p.text ? `<input type='text' maxlength='40' placeholder='${esc(p.text)}' value='${esc(p.txt||'')}' data-text='${p.id}' aria-label='${esc(p.text)}'>` : '';
     return `<div class='card'><div class='art'>${productArt(p)}</div><div class='body'><h3>${p.name}</h3>${sw}${sel}${txt}<div class='price-row'><span class='price'>${money(priceOf(p))}</span><button class='btn' type='button' data-add='${p.id}'>Add to cart</button></div></div></div>`;
   }).join('')).join('');
