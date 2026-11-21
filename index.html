@@ -47,6 +47,16 @@ h2{font-size:clamp(28px,4vw,40px);margin-bottom:8px}
 .xmas .price{font-size:26px;font-weight:700;margin-right:14px}
 .xmas .btn{background:#d4202f;color:#fff;border:2px solid #fff}
 .trees svg{width:100%;height:auto;display:block}
+.galaxy{position:relative;overflow:hidden;border-radius:26px;margin-top:22px;background:radial-gradient(circle at 30% 20%,#4b1d96,#1a0b3d 55%,#07031a);color:#fff;border:4px solid #8a5cff;box-shadow:0 0 0 4px #1a0b3d inset,0 10px 30px rgba(60,20,140,.45)}
+.galaxy-in{display:grid;grid-template-columns:130px 1fr 130px;gap:10px;align-items:center;padding:26px 22px;position:relative;z-index:1}
+.galaxy h2{color:#fff;margin:12px 0 6px;text-shadow:0 0 18px rgba(160,110,255,.8)}.galaxy h2 span{color:#c9a6ff}
+.galaxy p{color:#e0d2ff;max-width:520px;margin:0 auto 6px}
+.galaxy .tag{background:linear-gradient(90deg,#c9a6ff,#ff9be8);color:#1a0b3d}
+.galaxy .price{font-size:26px;font-weight:700;margin-right:14px}
+.galaxy .btn{background:#8a5cff;color:#fff;border:2px solid #fff}
+.planet-col svg{width:100%;height:auto;display:block}
+.gstar{position:absolute;border-radius:50%;background:#fff;animation:twinkle 3s ease-in-out infinite;z-index:0}
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
 .flake{position:absolute;top:-20px;color:#fff;opacity:.85;pointer-events:none;animation:fall linear infinite;z-index:0}
 @keyframes fall{to{transform:translateY(420px) rotate(180deg)}}
 .lights{height:14px;background:radial-gradient(circle,#ffd23f 3px,transparent 4px) 0 50%/26px 14px repeat-x,radial-gradient(circle,#ff4757 3px,transparent 4px) 13px 50%/26px 14px repeat-x;position:relative;z-index:1}
@@ -83,7 +93,7 @@ h2{font-size:clamp(28px,4vw,40px);margin-bottom:8px}
 footer{border-top:3px solid var(--red);background:var(--surface);padding:28px 0;margin-top:30px;color:var(--muted);font-size:14px}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:60}
 .toast.show{opacity:1;transform:translateX(-50%)}
-@media(max-width:760px){.hero .wrap,.builder{grid-template-columns:1fr}nav a{display:none}.xmas-in{grid-template-columns:70px 1fr 70px;padding:20px 8px 0}}
+@media(max-width:760px){.hero .wrap,.builder{grid-template-columns:1fr}nav a{display:none}.xmas-in{grid-template-columns:70px 1fr 70px;padding:20px 8px 0}.galaxy-in{grid-template-columns:70px 1fr 70px;padding:20px 8px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -115,6 +125,20 @@ footer{border-top:3px solid var(--red);background:var(--surface);padding:28px 0;
       <div><span class="price">$32.00</span><button class="btn" id="addBundle" type="button">Add to cart</button></div>
     </div>
     <div class="trees" id="treeR" aria-hidden="true"></div>
+  </div>
+</div></div>
+
+<div class="wrap"><div class="galaxy" id="galaxy">
+  <div class="galaxy-in">
+    <div class="planet-col" id="planetL" aria-hidden="true"></div>
+    <div class="xmas-mid">
+      <span class="tag">✦ OUT OF THIS WORLD</span>
+      <h2>Galaxy bundle in <span>Galaxy Purple</span></h2>
+      <p>2 Galaxy Purple mini sticks. Launch day ready.</p>
+      <div class="xmas-art" id="galaxyArt" aria-hidden="true"></div>
+      <div><span class="price">$32.00</span><button class="btn" id="addGalaxy" type="button">Add to cart</button></div>
+    </div>
+    <div class="planet-col" id="planetR" aria-hidden="true"></div>
   </div>
 </div></div>
 
@@ -157,6 +181,7 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const money = n => "$" + n.toFixed(2);
 const GLACIER = "#8fe0f7";
+const GALAXY = "#7b3ff2";
 
 /* Stick artwork, traced from the real product photo */
 function stickInner(c){
@@ -181,6 +206,24 @@ function tree(){
 $("treeL").innerHTML = tree();
 $("treeR").innerHTML = tree();
 $("xmasArt").innerHTML = bundleArt(GLACIER);
+function planet(kind){
+  if(kind===1) return `<svg viewBox='0 0 120 120'><defs><radialGradient id='pg1' cx='35%' cy='30%'><stop offset='0' stop-color='#ffb86b'/><stop offset='1' stop-color='#b3471d'/></radialGradient></defs><circle cx='60' cy='60' r='34' fill='url(#pg1)'/><path d='M8 78Q60 52 112 42' fill='none' stroke='#ffe3b8' stroke-width='6' opacity='.85' stroke-linecap='round'/></svg>`;
+  return `<svg viewBox='0 0 120 120'><defs><radialGradient id='pg2' cx='35%' cy='30%'><stop offset='0' stop-color='#d9b8ff'/><stop offset='1' stop-color='#5b2db8'/></radialGradient></defs><circle cx='60' cy='60' r='30' fill='url(#pg2)'/><circle cx='50' cy='52' r='5' fill='#000' opacity='.15'/><circle cx='70' cy='68' r='7' fill='#000' opacity='.12'/><ellipse cx='60' cy='60' rx='54' ry='14' fill='none' stroke='#fff' stroke-opacity='.7' stroke-width='3' transform='rotate(-18 60 60)'/></svg>`;
+}
+$('planetL').innerHTML = planet(1);
+$('planetR').innerHTML = planet(2);
+$('galaxyArt').innerHTML = bundleArt(GALAXY);
+for(let i=0;i<45;i++){
+  const s = document.createElement('span');
+  s.className = 'gstar';
+  s.style.left = Math.random()*100+'%';
+  s.style.top = Math.random()*100+'%';
+  s.style.width = s.style.height = (1+Math.random()*2.5)+'px';
+  s.style.animationDelay = (-Math.random()*4)+'s';
+  s.style.animationDuration = (2+Math.random()*3)+'s';
+  $('galaxy').appendChild(s);
+}
+$('addGalaxy').onclick = () => addItem({key:'galaxy',name:'Galaxy bundle',price:32,qty:1,detail:'2 Galaxy Purple mini sticks'});
 
 for(let i=0;i<16;i++){
   const s = document.createElement("span");
@@ -193,7 +236,7 @@ for(let i=0;i<16;i++){
 }
 
 /* Shop */
-const STICK_COLORS = [["Royal blue","#0c0cac"],["Red","#d4202f"],["Black","#14181f"],["Green","#1f8a4c"],["Orange","#f26a1b"],["Purple","#6b3fa0"],["Yellow","#f2c230"],["Pink","#e8559a"],["Teal","#12a8a8"],["Maroon","#7a1530"],["Gray","#7b8794"],["White","#f2f5f8"],["Glacier Freeze",GLACIER]];
+const STICK_COLORS = [["Royal blue","#0c0cac"],["Red","#d4202f"],["Black","#14181f"],["Green","#1f8a4c"],["Orange","#f26a1b"],["Purple","#6b3fa0"],["Yellow","#f2c230"],["Pink","#e8559a"],["Teal","#12a8a8"],["Maroon","#7a1530"],["Gray","#7b8794"],["White","#f2f5f8"],["Galaxy Purple",GALAXY],["Glacier Freeze",GLACIER]];
 const colorName = h => (STICK_COLORS.find(c => c[1] === h) || ["Custom"])[0];
 const PRODUCTS = [
   {id:'pro', cat:'Mini sticks', name:'Pro mini stick', price:18, color:'#0c0cac', pick:true, optLabel:'Blade pattern', opts:[['P28',18],['P29',18],['P88',18],['P86',18]]},
@@ -249,7 +292,7 @@ document.addEventListener('change', e => { const s = e.target.closest('[data-opt
 renderShop();
 
 /* Puck builder */
-const PUCK_COLORS = [["Black","#14181f"],["Red","#d4202f"],["Blue","#1c4fa0"],["Green","#1f8a4c"],["Orange","#f26a1b"],["Purple","#6b3fa0"],["Yellow","#f2c230"],["Pink","#e8559a"],["Teal","#12a8a8"],["Maroon","#7a1530"],["Gray","#7b8794"],["White","#f2f5f8"],["Glacier Freeze",GLACIER]];
+const PUCK_COLORS = [["Black","#14181f"],["Red","#d4202f"],["Blue","#1c4fa0"],["Green","#1f8a4c"],["Orange","#f26a1b"],["Purple","#6b3fa0"],["Yellow","#f2c230"],["Pink","#e8559a"],["Teal","#12a8a8"],["Maroon","#7a1530"],["Gray","#7b8794"],["White","#f2f5f8"],["Galaxy Purple",GALAXY],["Glacier Freeze",GLACIER]];
 const TEXT_COLORS = [["White","#ffffff"],["Gold","#f2c230"],["Ice","#9fd8ff"],["Black","#14181f"],["Red","#d4202f"],["Green","#1f8a4c"],["Pink","#e8559a"],["Orange","#f26a1b"]];
 let puck = {color:PUCK_COLORS[0][1], text:TEXT_COLORS[0][1]};
 function swatches(id, list, key){
