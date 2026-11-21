@@ -54,6 +54,13 @@ h2{font-size:clamp(28px,4vw,40px);margin-bottom:8px}
 .galaxy .tag{background:linear-gradient(90deg,#c9a6ff,#ff9be8);color:#1a0b3d}
 .galaxy .price{font-size:26px;font-weight:700;margin-right:14px}
 .galaxy .btn{background:#8a5cff;color:#fff;border:2px solid #fff}
+.deals{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:stretch}
+.deals .galaxy{margin-top:0}
+.deals .xmas-in,.deals .galaxy-in{grid-template-columns:64px 1fr 64px;gap:6px;padding:20px 10px}
+.deals .xmas-in{padding-bottom:0}
+.deals .galaxy-in{align-content:center}
+.deals h2{font-size:clamp(22px,2.6vw,30px)}
+@media(max-width:900px){.deals{grid-template-columns:1fr}}
 .planet-col svg{width:100%;height:auto;display:block}
 .gstar{position:absolute;border-radius:50%;background:#fff;animation:twinkle 3s ease-in-out infinite;z-index:0}
 @keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
@@ -113,7 +120,7 @@ footer{border-top:3px solid var(--red);background:var(--surface);padding:28px 0;
   </div>
 </div></div>
 
-<div class="wrap"><div class="xmas" id="xmas">
+<div class="wrap deals"><div class="xmas" id="xmas">
   <div class="lights" aria-hidden="true"></div>
   <div class="xmas-in">
     <div class="trees" id="treeL" aria-hidden="true"></div>
@@ -126,9 +133,8 @@ footer{border-top:3px solid var(--red);background:var(--surface);padding:28px 0;
     </div>
     <div class="trees" id="treeR" aria-hidden="true"></div>
   </div>
-</div></div>
-
-<div class="wrap"><div class="galaxy" id="galaxy">
+</div>
+<div class="galaxy" id="galaxy">
   <div class="galaxy-in">
     <div class="planet-col" id="planetL" aria-hidden="true"></div>
     <div class="xmas-mid">
